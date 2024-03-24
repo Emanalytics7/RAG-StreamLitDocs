@@ -17,13 +17,15 @@ class VectorStoreManager:
                 input=chunk,
                 model='text-embedding-3-large'
             ).data[0].embedding
-        embeddings.append(response)
+            embeddings.append(response)
+        return embeddings
 
 
     def store_embeddings(self, text_chunks):
         embeddings = self.get_openai_embeddings(text_chunks, self.openai_api_key)
         for chunk, embeddings in zip(text_chunks, embeddings):
-            self.collection.store(documents=[embeddings], ids=[chunk])
+            chunk_str = str(chunk)
+            self.collection.add(documents=[embeddings], ids=[chunk_str])
  
 
     def query_embeddings(self, query_text, n_results=2):
