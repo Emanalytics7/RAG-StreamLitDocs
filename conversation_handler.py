@@ -1,9 +1,10 @@
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+import openai
 
 class ConversationChainManager:
     def __init__(self, llm, retriever, memory_key='chat_history'):
-        self.llm = llm
+        self.llm = llm,  
         self.retriever = retriever
         self.memory = ConversationBufferMemory(memory_key=memory_key, return_messages=True)
 
@@ -13,3 +14,15 @@ class ConversationChainManager:
             retriever=self.retriever.as_retriever(),
             memory=self.memory
         )
+    
+    def query_gpt3_5_turbo(self, question, context=''):
+        openai.api_key = 'your-openai-api-key'  
+        response = openai.Completion.create(
+            engine="gpt-3.5-turbo",  
+            prompt=f"{context}\n\nQuestion: {question}\nAnswer:",
+            temperature=0.7,
+            max_tokens=150,
+            n=1,
+            stop=["\n"],
+        )
+        return response.choices[0].text.strip()
