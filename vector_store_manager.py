@@ -1,4 +1,5 @@
-from langchain_community.vectorstores import chroma
+from langchain.vectorstores import Chroma
+from langchain.embeddings import OpenAIEmbeddings
 import chromadb
 import openai
 class VectorStoreManager:
@@ -11,13 +12,14 @@ class VectorStoreManager:
     @staticmethod
     def get_openai_embeddings(text_chunks, openai_api_key):
         openai_api_key = openai_api_key
-        embeddings = []
-        for chunk in text_chunks:
-            response = openai.embeddings.create(
-                input=chunk,
-                model='text-embedding-3-large'
-            ).data[0].embedding
-            embeddings.append(response)
+        embeddings = OpenAIEmbeddings(openai_api_key)
+        # embeddings = []
+        # for chunk in text_chunks:
+        #     response = openai.embeddings.create(
+        #         input=chunk,
+        #         model='text-embedding-3-large'
+        #     ).data[0].embedding
+        #     embeddings.append(response)
         return embeddings
 
 
@@ -26,6 +28,7 @@ class VectorStoreManager:
         for chunk, embeddings in zip(text_chunks, embeddings):
             chunk_str = str(chunk)
             self.collection.add(documents=[embeddings], ids=[chunk_str])
+        
  
 
     def query_embeddings(self, query_text, n_results=2):
