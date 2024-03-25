@@ -15,17 +15,28 @@ class DocumentProcessor:
         
     @staticmethod
     def get_pdf_text(pdf_file):
-        reader = PyPDF2.PdfReader(pdf_file)
-        text = ''
-        for page in reader.pages:
-            text += page.extract_text() or ''
-        return text
+        try:
+            reader = PyPDF2.PdfReader(pdf_file)
+            text = ''
+            for page in reader.pages:
+                text += page.extract_text() or ''
+            return text
+        except Exception as e:
+            return f'Error reading PDF: {str(e)}'
    
     @staticmethod
     def get_docx_text(docx_file):
-        doc = Document(docx_file)
-        text = ' '.join([paragraph.text for paragraph in doc.paragraphs])
-        return text
+        try:
+            doc = Document(docx_file)
+            text = ' '.join([paragraph.text for paragraph in doc.paragraphs])
+            return text
+        except Exception as e:
+            return f'Error reading DOCX: {str(e)}'
     
         
-        
+# Example for Testing Document Processor
+# processor = DocumentProcessor()
+# text_from_pdf = processor.get_pdf_text('sample-pdf-file.pdf')
+# text_from_docx = processor.get_docx_text('sample-docx-file-for-testing.docx')
+# print(text_from_pdf)
+# print(text_from_docx)
