@@ -12,7 +12,7 @@ def main():
         process_button = st.button('Process Documents')
         
         if process_button:
-            vector_store_manager = VectorStoreManager(collection_name="pdf", openai_api_key=openai_api_key)
+            vector_store_manager = VectorStoreManager(collection_name="loader", openai_api_key=openai_api_key)
             conversation_chain_manager = ConversationChainManager(llm="gpt-3.5-turbo", retriever=vector_store_manager, openai_api_key=openai_api_key)
             
             for uploaded_file in uploaded_files:
