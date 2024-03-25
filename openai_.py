@@ -1,10 +1,8 @@
+from openai import OpenAI
 import openai
 class OpenAIModel:
     def __init__(self, api_key):
-        self.api_key = api_key
-        openai.api_key = self.api_key
-  
-
+        self.client = OpenAI(api_key=api_key)
     def create_embedding(self, text, model='text-embedding-3-large'):
         """
         Create an embedding for the given text and store it in ChromaDB.

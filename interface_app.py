@@ -7,6 +7,7 @@ from text_chunker import TextChunker
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
+
 def main():
 
     with st.sidebar:
@@ -36,13 +37,11 @@ def main():
         st.stop()
 
     process_button = st.sidebar.button('Process Documents')
+    vector_store_manager = ChromaDBStorage(collection_name='query11')
+    rag_handler = OpenAIModel(api_key=openai_api_key)     
 
     if process_button:
         with st.spinner("Processing documents..."):
-            vector_store_manager = ChromaDBStorage(collection_name='document5')
-            rag_handler = OpenAIModel(api_key=openai_api_key)
-
-
             for uploaded_file in uploaded_files:
                 if uploaded_file is not None:
                     text = DocumentProcessor.get_text(uploaded_file)
