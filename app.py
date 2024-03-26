@@ -1,32 +1,51 @@
+import openai
 from document_processor import DocumentProcessor
-from openai_ import OpenAIModel
+from text_chunker import TextChunker
 from vector_store_manager import ChromaDBStorage
-import os
+import numpy as np
 
-# Configuration and Initialization
-openai_api_key = "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"
-pdf_file_path = "sample-pdf-file.pdf"
+# Assuming you have set these up
+openai.api_key = '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'
 
-# Initialize components
-doc_processor = DocumentProcessor()
-openai_model = OpenAIModel(api_key=openai_api_key)
-vector_store = ChromaDBStorage(db_path='./chroma_db', collection_name='systems')
+def generate_embedding(text):
+    """Generate an embedding for a piece of text using OpenAI's API."""
+    response = openai.embeddings.create(
+        input=[text],
+        engine="text-embedding-3-large"
+    )
+    return response.data[0].embedding
 
-# Step 1: Extract text from PDF
-text = doc_processor.get_text(open(pdf_file_path, 'rb'))
+def process_document_and_store_chunks(file_path):
+    """Extract text, chunk it, generate embeddings, and store them."""
+    text = DocumentProcessor.get_text(file_path)
+    chunks = TextChunker().chunk_text(text)
+    
+    for i, chunk in enumerate(chunks):
+        embedding = generate_embedding(chunk)
+        ChromaDBStorage().store_embedding(str(i), np.array(embedding))
 
-# Step 2: Generate an embedding for the extracted text
-embedding = openai_model.create_embedding(text)
+def query_and_generate_response(query):
+    """Find relevant document chunks and use them to generate a response."""
+    query_embedding = generate_embedding(query)
+    results = ChromaDBStorage().query_embedding(np.array(query_embedding))
+    
+    # Assuming `results` contains the IDs of the relevant chunks
+    relevant_chunks = [ChromaDBStorage().retrieve_chunk_text(chunk_id) for chunk_id in results]  # Placeholder method
+    combined_context = " ".join(relevant_chunks)
+    
+    response = openai.chat.completions.create(
+        engine="gpt-3.5-turbo",
+        prompt=f"Based on the following information: {combined_context}\n\nGenerate a summary:",
+        temperature=0.7,
+        max_tokens=150
+    )
+    return response.choices[0].text
 
-# Step 3: Store the embedding in ChromaDB
-# Assuming the store_embedding method takes a document ID and its embedding
-doc_id = os.path.basename(pdf_file_path)  # Use the file name as a simple document ID
-vector_store.store_embedding(doc_id, embedding)
+# Example usage
+if __name__ == "__main__":
+    file_path = 'sample-pdf-file.pdf'  # or .docx
+    process_document_and_store_chunks(file_path)
 
-# Step 4: Query ChromaDB for similar embeddings
-# For simplicity, we use the same embedding as the query; in practice, you might query with different text
-similar_embeddings = vector_store.query_embedding(embedding, n_results=5)
-
-# Output the result of the query
-# This part depends on how similar_embeddings are structured and what information they contain
-print("Similar Embeddings Found:", similar_embeddings)
+    query = "What is the summary of the document?"
+    response = query_and_generate_response(query)
+    print(response)

@@ -22,7 +22,7 @@ def main():
 
     # Initialize or retrieve from session state
     if 'vector_store_manager' not in st.session_state:
-        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='store_s')
+        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='stos')
     if 'rag_handler' not in st.session_state:
         st.session_state.rag_handler = OpenAIModel(api_key=openai_api_key)
 
@@ -36,7 +36,7 @@ def main():
                     text_chunker = TextChunker()
                     chunks = text_chunker.chunk_text(text)
                     for chunk in chunks:
-                        embedding = st.session_state.rag_handler.create_embedding(chunk)
+                        embedding = st.session_state.vector_store_manager.get_embeddings(chunk)
                         st.session_state.vector_store_manager.store_embedding(uploaded_file.name, embedding)
 
             st.sidebar.success("Documents processed and embeddings stored.")
@@ -44,7 +44,7 @@ def main():
     if user_query:
         with st.spinner("Querying..."):
             query_embedding = st.session_state.rag_handler.create_embedding(user_query)
-            similar_embeddings = st.session_state.vector_store_manager.query_embedding(query_embedding, n_results=1)
+            similar_embeddings = st.session_state.vector_store_manager.query_embedding(query_embedding, n_results=5)
             context_texts = [text for text in similar_embeddings]
             context = " ".join(context_texts)
             answer = st.session_state.rag_handler.generate_augmented_text(user_query, context=context) 

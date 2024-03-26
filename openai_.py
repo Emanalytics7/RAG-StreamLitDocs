@@ -26,7 +26,7 @@ class OpenAIModel:
         try:
             response = openai.chat.completions.create(
                 model=model,
-                prompt=augmented_prompt,
+                messages=[{'role': 'system', 'content': augmented_prompt}],
                 temperature=0,
                 max_tokens=max_tokens
             )
