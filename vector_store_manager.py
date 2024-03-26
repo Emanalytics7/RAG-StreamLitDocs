@@ -1,6 +1,5 @@
 import chromadb
 import os
-from chromadb.utils import embedding_functions
 class ChromaDBStorage:
     def __init__(self, db_path='./chroma_db', collection_name='unique'):
         self.db_path = db_path
@@ -19,12 +18,6 @@ class ChromaDBStorage:
             return collection
         except Exception as e:
             print(f"An error occurred: {e}")
-
-    def get_embeddings(self):
-        embeddings = embedding_functions.OpenAIEmbeddingFunction(
-            model_name='text-embedding-3-large'
-        )
-        return embeddings
     
     def store_embedding(self, id, embedding):
         results = self.collection.add(ids=[id], embeddings=embedding)
