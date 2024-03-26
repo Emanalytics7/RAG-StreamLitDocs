@@ -22,7 +22,7 @@ def main():
 
     # Initialize or retrieve from session state
     if 'vector_store_manager' not in st.session_state:
-        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='store_t')
+        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='store_s')
     if 'rag_handler' not in st.session_state:
         st.session_state.rag_handler = OpenAIModel(api_key=openai_api_key)
 
@@ -44,7 +44,7 @@ def main():
     if user_query:
         with st.spinner("Querying..."):
             query_embedding = st.session_state.rag_handler.create_embedding(user_query)
-            similar_embeddings = st.session_state.vector_store_manager.query_embedding(query_embedding, n_results=5)
+            similar_embeddings = st.session_state.vector_store_manager.query_embedding(query_embedding, n_results=1)
             context_texts = [text for text in similar_embeddings]
             context = " ".join(context_texts)
             answer = st.session_state.rag_handler.generate_augmented_text(user_query, context=context) 
