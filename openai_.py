@@ -14,18 +14,18 @@ class OpenAIModel:
         except Exception as e:
             return f'Error creating or storing embedding: {str(e)}'
 
-    def generate_augmented_text(self, prompt, related_content, 
+    def generate_augmented_text(self, prompt, context='',
                                 model='gpt-3.5-turbo', max_tokens=100):
         """
         Generate text based on the original prompt and related content.
         """
-        augmented_prompt = f"{prompt} {related_content}"  
+        augmented_prompt = f'{context}\n\n{prompt}'
         try:
-            response = openai.Completion.create(
-                engine=model,
-                prompt=augmented_prompt,
-                max_tokens=max_tokens,
-                temperature=0.7  
+            response = openai.completions.create(
+                model=model,
+                messages=[{"role": "system", "content": augmented_prompt}],
+                temperature=0,
+                max_tokens=500
             )
             return response.choices[0].text.strip()
         except Exception as e:
