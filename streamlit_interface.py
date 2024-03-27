@@ -15,19 +15,9 @@ class QueryHandler:
         self.client = OpenAI(api_key=api_key)
 
     def generate_response(self, context, question, model="gpt-3.5-turbo"):
-        """
-        Generates a response to a question based on the provided context.
-        
-        Args:
-        - context: The text context to inform the response.
-        - question: The user's question.
-        - model: The model to use for generating the response.
-        
-        Returns:
-        - The generated response as a string.
-        """
+ 
         prompt = f"Context: {context}\nQuestion: {question}\nAnswer:"
-        response = self.client.Completions.create(
+        response = self.client.chat.completions.chunk(
             model=model,
             prompt=prompt,
             temperature=0.5,
@@ -39,9 +29,10 @@ class QueryHandler:
         )
         return response.choices[0].text.strip()
 
-
 db_storage = ChromaDBStorage()
-text_embedder = TextEmbedder(api_key=os.getenv['OPENAI_API_KEY'])
+
+openai_api_key = os.getenv('OPENAI_API_KEY')
+text_embedder = TextEmbedder(api_key=openai_api_key)
 st.title('PDF Document Query System')
 
 uploaded_file = st.file_uploader('Upload your Document!', type=['pdf', 'docx'])
@@ -57,7 +48,7 @@ if uploaded_file is not None:
     st.success('Document uploaded successfully!')
 
 
-query_handler = QueryHandler(api_key=os.getenv('OPENAI_API_KEY'))
+query_handler = QueryHandler(api_key=openai_api_key)
 
 user_query = st.text_input('Enter your query:')
 if user_query:
