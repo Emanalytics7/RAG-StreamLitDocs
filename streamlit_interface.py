@@ -4,7 +4,9 @@ from text_chunker import TextChunker
 from text_embedder import TextEmbedder
 import os
 from vector_store_manager import ChromaDBStorage
+from dotenv import load_dotenv
 
+load_dotenv()
 
 from openai import OpenAI
 
