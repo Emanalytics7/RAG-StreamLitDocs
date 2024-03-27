@@ -61,20 +61,7 @@ class DocumentProcessor:
         return ' '.join(paragraph.text for paragraph in doc.paragraphs)
 
     def generate_response(self, uploaded_file, query_text):
-        """
-        Generate a response to the query text based on the extracted text from the uploaded file.
 
-        Args:
-            uploaded_file (File): The file to extract text from.
-            query_text (str): The query text to generate a response for.
-
-        Returns:
-            str: The generated response to the query text.
-
-        Raises:
-            ValueError: If no text could be extracted from the document.
-        """
-        
         document_text = self.get_text(uploaded_file)
         if document_text:
             text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
