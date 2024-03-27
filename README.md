@@ -1,27 +1,28 @@
+# RAG-StreamLitDocs
 
+## Overview
+This project aims to develop a fundamental Retrieval Augmented solution (RAG) for PDF files using LangChain for retrieval and generation, Chroma DB for persistence, and OpenAI models for text embedding and text generation.The system utilizes Streamlit for the user interface to provide an interactive experience for users.
 
-## Features
-
-- **PDF and DOCX Support**: Upload your documents in popular formats and let DocBot do the heavy lifting.
-- **Intuitive Question-Answering**: Simply ask any question about your document, and receive an instant, accurate response.
-- **Streamlit UI**: A user-friendly interface that makes document querying as easy as a few clicks.
-
-## Demo Video
-
-Check out [this video](link-to-your-video) to see DocBot in action. Witness firsthand the power and ease of AI-driven document analysis.
-
-## Getting Started
+## Demo
+https://github.com/Emanalytics7/RAG-StreamLitDocs/assets/142586747/4ebe9abe-d38b-43e1-870d-1f7554771096
 
 ### Prerequisites
-
 - Python 3.8+
 - An OpenAI API key
 
-### Installation
+## Installation
 
-1. Clone this repository:
-```bash
-git clone https://your-repository-link.git
-cd your-repository-directory
+1. Clone the repository to your local machine:
+   ```bash
+   https://github.com/Emanalytics7/RAG-StreamLitDocs.git
+2. Navigate to the project directory
+   ```bash
+   cd RAG-StreamLitDocs
 
-
+3. Install dependencies:
+   ```bash
+     pip install -r requirements.txt
+   
+4. Usage
+   ```bash
+   streamlit run app.py
