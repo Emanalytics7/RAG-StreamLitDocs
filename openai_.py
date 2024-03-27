@@ -22,7 +22,7 @@ class OpenAIModel:
         """
         Generate text based on the original prompt and related content.
         """
-        augmented_prompt = f'Given{context} generate a response\n\n{prompt}'
+        augmented_prompt = f'Respond to the following question: {prompt} only from the below context :{context}.'
         try:
             response = openai.chat.completions.create(
                 model=model,

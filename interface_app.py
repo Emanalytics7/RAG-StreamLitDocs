@@ -22,7 +22,7 @@ def main():
 
     # Initialize or retrieve from session state
     if 'vector_store_manager' not in st.session_state:
-        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='storins')
+        st.session_state.vector_store_manager = ChromaDBStorage(collection_name='storings')
     if 'rag_handler' not in st.session_state:
         st.session_state.rag_handler = OpenAIModel(api_key=openai_api_key)
 
