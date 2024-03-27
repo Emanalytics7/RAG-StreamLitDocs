@@ -40,3 +40,8 @@ class DocumentProcessor:
 # text_from_docx = processor.get_docx_text('sample-docx-file-for-testing.docx')
 # print(text_from_pdf)
 # print(text_from_docx)
+
+
+
+
+
