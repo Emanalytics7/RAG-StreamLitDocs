@@ -21,7 +21,7 @@ https://github.com/Emanalytics7/RAG-StreamLitDocs/assets/142586747/4ebe9abe-d38b
 
 3. Install dependencies:
    ```bash
-     pip install -r requirements.txt
+     pip install -r requirement.txt
    
 4. Usage
    ```bash
