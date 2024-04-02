@@ -3,6 +3,7 @@
 ## Overview
 This project aims to develop a fundamental Retrieval Augmented solution (RAG) for PDF and DOC files using LangChain for retrieval and generation, Chroma DB for persistence, and OpenAI models for text embedding and text generation.The system utilizes Streamlit for the user interface to provide an interactive experience for users.
 
+ Try this out -> 
 ## Demo
 https://github.com/Emanalytics7/RAG-StreamLitDocs/assets/142586747/4ebe9abe-d38b-43e1-870d-1f7554771096
 
