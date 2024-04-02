@@ -43,7 +43,7 @@ def main():
     elif not uploaded_file and not query_text:
         st.markdown('You didn\'t upload a document. I\'m pretty good, but I\'m not psychic... yet!')
         if not query_text and st.button('Ask', key='no_query_text'):
-           st.markdown('You\'re testing my mind-reading skills, aren\'t you? Go on, type a question!🤔 ')
+           st.markdown('You\'re testing my mind-reading skills, aren\'t you? go on, type a question!🤔 ')
 
 if __name__ == "__main__":
     main()
