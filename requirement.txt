@@ -1,5 +1,5 @@
 streamlit
-python-docx
+docx
 PyPDF2
 langchain>=0.1.0
 openai
